@@ -290,7 +290,6 @@ document.getElementById('text').addEventListener('click', function() {
 
 
 
-// Add event listener for erase button
 // Add event listener for the erase button
 document.getElementById('eraser').addEventListener('click', function() {
   // Disable drawing mode and other shape buttons
@@ -303,9 +302,17 @@ document.getElementById('eraser').addEventListener('click', function() {
   canvas.forEachObject(function(obj) {
     obj.selectable = true;
     obj.hoverCursor = 'pointer';
-    obj.on('mouseover', function() {
+    obj.on('mousedown', function() {
       canvas.remove(obj);
       sendDrawData();
+    });
+    obj.on('mouseover', function() {
+      obj.set('opacity', 0.5);
+      canvas.renderAll();
+    });
+    obj.on('mouseout', function() {
+      obj.set('opacity', 1);
+      canvas.renderAll();
     });
   });
 });
@@ -357,11 +364,6 @@ document.getElementById('image').addEventListener('click', function() {
     reader.readAsDataURL(file);
   });
 });
-
-
-
-
-
 
 
 // Add event listener for delete button
