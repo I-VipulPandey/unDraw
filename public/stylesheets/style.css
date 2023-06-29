@@ -52,7 +52,7 @@
  
  }
   
- .color-container,.undo-redo,#shapes-options{
+ .size-container,.color-container,.undo-redo,#shapes-options{
    position: absolute;
    top: 12%;
    left: 97%;
@@ -93,6 +93,21 @@
    background-color: rgb(202, 235, 248);
  
  }
+
+ svg{
+  height: 2.5vw;
+  width: 2.5vw;
+  object-fit: cover;
+  object-position: center;
+
+}
+
+ svg:hover{
+  border-radius: 4px;
+  box-shadow: 8px 9px 20px -3px rgba(0,0,0.2,0.1);
+  background-color: rgb(202, 235, 248);
+
+}
  
  
  #shapes-options{
@@ -107,4 +122,62 @@
   left: 4%;
  }
 
+ 
+ .size-container{
+  top: 5%;
+  left: 7%;
+  text-align: center;
+  padding: .5vmax;
+ }
+
+ input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none; 
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Track: webkit browsers */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 15px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Track: Mozilla Firefox */
+input[type="range"]::-moz-range-track {
+  height: 15px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none; 
+  /* creating a custom design */
+  height: 15px;
+  width: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #111;
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px #111;
+}
+
+
+/* Thumb: Firefox */
+input[type="range"]::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #111;
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px #111;
+}
 

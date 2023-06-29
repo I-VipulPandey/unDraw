@@ -9,11 +9,7 @@ var canvas = new fabric.Canvas('canvas', {
 var socket = io();
 
 
-// Function to send drawing data to other clients
-function sendDrawData() {
-  var jsonData = JSON.stringify(canvas.toJSON());
-  socket.emit('draw', jsonData);
-}
+
 
 // Variable to track pencil mode
 var pencilMode = false;
@@ -21,6 +17,22 @@ var lineMode = false;
 var dragMode = false;
 var startPoint = null;
 let selectedColor = "#000"
+var canvasStates = [];
+var currentStateIndex = -1;
+
+var selectedSize = 1;
+
+function updateSize() {
+  var sizeInput = document.getElementById('size');
+  selectedSize = parseInt(sizeInput.value);
+
+  // Update the stroke width for the pencil
+  canvas.freeDrawingBrush.width = selectedSize;
+
+  canvas.renderAll();
+}
+
+updateSize();
 
 // Function to handle shape drawing
 function handleShapeDrawing(shape, options) {
@@ -42,7 +54,7 @@ function handleShapeDrawing(shape, options) {
         height: 0,
         fill: 'transparent',
         stroke: selectedColor,
-        strokeWidth: 2,
+        strokeWidth: selectedSize,
       });
       break;
     case 'circle':
@@ -52,7 +64,7 @@ function handleShapeDrawing(shape, options) {
         radius: 0,
         fill: 'transparent',
         stroke: selectedColor,
-        strokeWidth: 2
+        strokeWidth: selectedSize
       });
       break;
     case 'triangle':
@@ -63,7 +75,7 @@ function handleShapeDrawing(shape, options) {
         height: 0,
         fill: 'transparent',
         stroke: selectedColor,
-        strokeWidth: 2
+        strokeWidth: selectedSize
       });
       break;
   }
@@ -166,6 +178,10 @@ document.getElementById('pencil').addEventListener('click', function() {
   canvas.off('mouse:move');
   canvas.off('mouse:up');
 
+   canvas.isDrawingMode = true;
+  canvas.freeDrawingBrush.width = selectedSize;
+
+
   canvas.on('path:created', function() {
     sendDrawData();
   });
@@ -184,7 +200,7 @@ document.getElementById('line').addEventListener('click', function() {
     startPoint = canvas.getPointer(options.e);
     var line = new fabric.Line([startPoint.x, startPoint.y, startPoint.x, startPoint.y], {
       stroke: selectedColor,
-      strokeWidth: 2
+      strokeWidth: selectedSize
     });
     canvas.add(line);
 
@@ -441,6 +457,69 @@ function updateShapeStrokeColor(color) {
     activeObject.set('stroke', color);
     canvas.renderAll();
   }
+}
+
+
+document.getElementById('fill').addEventListener('click', function() {
+  canvas.isDrawingMode = false; // Disable drawing mode
+  canvas.selection = true; // Enable selection of shapes
+
+  // Set up event listener for double-click on shapes
+  canvas.on('mouse:dblclick', function(options) {
+    var target = options.target;
+    if (target) {
+      // Set the fill color of the shape
+      target.set('fill', selectedColor);
+      canvas.renderAll();
+      sendDrawData(); // Send the updated canvas data to other clients
+    }
+  });
+});
+
+document.getElementById('undo').addEventListener('click', function() {
+  if (currentStateIndex > 0) {
+    currentStateIndex--;
+    canvas.loadFromJSON(canvasStates[currentStateIndex], function() {
+      canvas.renderAll();
+    });
+    cancelDrawingMode(); // Cancel drawing mode and remove event listeners
+    sendDrawData(); // Send updated canvas state to other clients
+  }
+});
+
+document.getElementById('redo').addEventListener('click', function() {
+  if (currentStateIndex < canvasStates.length - 1) {
+    currentStateIndex++;
+    canvas.loadFromJSON(canvasStates[currentStateIndex], function() {
+      canvas.renderAll();
+    });
+    cancelDrawingMode(); // Cancel drawing mode and remove event listeners
+    sendDrawData(); // Send updated canvas state to other clients
+  }
+});
+
+function cancelDrawingMode() {
+  canvas.isDrawingMode = false; // Disable drawing mode
+
+  // Remove drawing event listeners
+  canvas.off('mouse:down');
+  canvas.off('mouse:move');
+  canvas.off('mouse:up');
+}
+
+
+
+function sendDrawData() {
+  var jsonData = JSON.stringify(canvas.toJSON());
+  socket.emit('draw', jsonData);
+
+  // Save the current canvas state for undo/redo
+  if (currentStateIndex < canvasStates.length - 1) {
+    // If there are future states, remove them
+    canvasStates = canvasStates.slice(0, currentStateIndex + 1);
+  }
+  canvasStates.push(jsonData);
+  currentStateIndex++;
 }
 
 

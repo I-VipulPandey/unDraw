@@ -5,16 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../stylesheets/style.css" />
-    <title>Document</title>
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/7485/7485752.png" type="image/x-icon">
+    <title>UnDraw | Board</title>
   </head>
 
   <body>
-
     <div id="main">
       <canvas width="800" height="500" id="canvas"></canvas>
 
       <div class="draw-area">
-        <div class=" controls">
+        <div class="controls">
           <button
             title="Drag (select element to drag)"
             id="drag"
@@ -100,7 +100,7 @@
           </div>
         </div>
 
-        <div class=" undo-redo">
+        <div class="undo-redo">
           <button title="Undo" id="undo" class="undo options">
             <img
               src="https://thenounproject.com/api/private/icons/1672221/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
@@ -115,20 +115,37 @@
           </button>
         </div>
 
-        <div class="color-container ">
+        <div class="color-container">
+          <button id="fill" class="options">
+            <img src="https://thenounproject.com/api/private/icons/1284047/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
+          </button>
           <!-- Color palette buttons -->
-<button  class="color-button options" data-color="black"></button>
-<button class="color-button options" data-color="red"></button>
-<button class="color-button options" data-color="blue"></button>
-
-<!-- Color selector -->
-<input type="color" class="options" id="color-selector" value="#000000">
+          <button class="color-button options" data-color="black">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path></svg>
+          </button>
+          <button class="color-button options" data-color="red">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="rgba(255,0,0,1)"></path></svg>
+          </button>
+          <button class="color-button options" data-color="blue">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="rgba(0,0,255,1)"></path></svg>
+          </button>
+         
+          <!-- Color selector -->
+          <input
+            type="color"
+            class="options"
+            id="color-selector"
+            value="#000000"
+          />
+        </div>
+        <div class="size-container">
+          Brush Size
+          <input type="range" id="size" min="1" max="10" value="1" step="1" oninput="updateSize()">
 
         </div>
-
       </div>
     </div>
-<!-- 
+    <!-- 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"
       integrity="sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=="
