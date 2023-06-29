@@ -311,70 +311,48 @@ document.getElementById('erase').addEventListener('click', function() {
   });
 });
 
-// Add event listener for sticky note button
-document.getElementById('sticky-note').addEventListener('click', function() {
-  canvas.isDrawingMode = false;
-  canvas.off('mouse:down');
-  canvas.off('mouse:move');
-  canvas.off('mouse:up');
+// Add event listener for the image button
+document.getElementById('image').addEventListener('click', function() {
+  // Create an input element of type "file"
+  var input = document.createElement('input');
+  input.type = 'file';
 
-  var textModeActive = false;
-  var activeTextObject = null;
+  // Trigger a click event on the input element
+  input.click();
 
-  canvas.on('mouse:down', function(options) {
-    if (textModeActive) {
-      return;
-    }
+  // Event listener for when a file is selected
+  input.addEventListener('change', function(e) {
+    var file = e.target.files[0];
 
-    var pointer = canvas.getPointer(options.e);
-    var rect = new fabric.Rect({
-      left: pointer.x,
-      top: pointer.y,
-      width: 200,
-      height: 200,
-      fill: 'yellow',
-      stroke: 'black',
-      strokeWidth: 2
-    });
+    // Create a FileReader object to read the file
+    var reader = new FileReader();
 
-    var text = new fabric.IText('Enter text', {
-      left: pointer.x + 10,
-      top: pointer.y + 10,
-      width: 180,
-      height: 180,
-      fill: 'black',
-      fontSize: 16,
-      fontFamily: 'Arial',
-      editable: true
-    });
+    // Event listener for when the file has been loaded
+    reader.onload = function(event) {
+      var imgData = event.target.result;
 
-    activeTextObject = text;
+      // Create a new image object using the loaded data
+      fabric.Image.fromURL(imgData, function(img) {
+        // Position the image at the center of the canvas
+        img.set({
+          left: canvas.width / 2,
+          top: canvas.height / 2,
+          originX: 'center',
+          originY: 'center'
+        });
 
-    canvas.add(rect, text);
-    canvas.setActiveObject(text);
+        // Add the image to the canvas
+        canvas.add(img);
+        canvas.renderAll();
+        sendDrawData();
+      });
+    };
 
-    // Focus on the text input for immediate editing
-    text.enterEditing();
-    text.selectAll();
-
-    canvas.renderAll();
-
-    canvas.on('mouse:up', function() {
-      canvas.off('mouse:up');
-      sendDrawData();
-    });
-
-    textModeActive = true;
+    // Read the file as data URL
+    reader.readAsDataURL(file);
   });
-
-  canvas.on('text:changed', function(options) {
-    if (textModeActive && activeTextObject) {
-      sendDrawData();
-    }
-  });
-
-  sendDrawData();
 });
+
 
 
 
