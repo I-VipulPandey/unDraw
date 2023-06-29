@@ -1,100 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../stylesheets/style.css" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="stylesheet" href="../stylesheets/style.css">
-  <title>Document</title>
-</head>
+  <body>
 
-<body>
+    <div id="main">
+      <canvas width="800" height="500" id="canvas"></canvas>
 
-  <div id="container"></div>
-
-
-  <div id="main">
-    <canvas width="800" height="500" id="canvas"></canvas>
-  
-    <div class="draw-area">
-      <div class="controls">
-        <button title="Drag (select element to drag)" id="drag" class="options">
-          <i class="ri-drag-drop-line"></i>
-        </button>
-        <button title="Erase (select element to erase)" id="erase" class="options">
-          <i class="ri-eraser-line"></i>
-        </button>
-        <button title="Pencil" id="pencil" class="options">
-          <i class="ri-pencil-line"></i>
-        </button>
-        <button title="Add image" id="image" class="options">
-        <img src="https://thenounproject.com/api/private/icons/1559834/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
-        </button>
-        <button title="Add shapes" id="shapes" class="options">
-          
-         <img src="https://thenounproject.com/api/private/icons/256628/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
-        </button>
-        <button title="Text" id="text" class="options"><i class="ri-text"></i></button>
-        <button title="Delete everything" id="delete" class="options">
-          <i class="ri-delete-bin-line"></i>
-        </button>
-        <button title="Download" id="download" class="options">
-          <img src="https://thenounproject.com/api/private/icons/5830537/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
-        </button>
-        
-
-        <div id="shapes-options">
-
-          <button title="Rectangle" id="rectangle" class="options">
-            <i class="ri-checkbox-blank-line"></i>
+      <div class="draw-area">
+        <div class=" controls">
+          <button
+            title="Drag (select element to drag)"
+            id="drag"
+            class="options"
+          >
+            <img
+              src="https://thenounproject.com/api/private/icons/2709846/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
           </button>
-          <button title="Circle" id="circle" class="options">
-            <i class="ri-checkbox-blank-circle-line"></i>
+          <button
+            title="Erase (select element to erase)"
+            id="eraser"
+            class="options"
+          >
+            <img
+              src="https://thenounproject.com/api/private/icons/5832432/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
           </button>
-           <button title="Line" id="line" class="options">
-        <img src="https://thenounproject.com/api/private/icons/2759142/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
-          </button> 
-          <button title="Triangle" id="triangle" class="options">
-            <img src="https://thenounproject.com/api/private/icons/1055895/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
-          </button>          
+          <button title="Pencil" id="pencil" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/5833346/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+          <button title="Add image" id="image" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/1559834/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+          <button title="Add shapes" id="shapes" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/256628/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+          <button title="Text" id="text" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/3715909/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+          <button title="Delete everything" id="delete" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/5835378/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+          <button title="Download" id="download" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/5830537/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+
+          <div id="shapes-options">
+            <button title="Rectangle" id="rectangle" class="options">
+              <img
+                src="https://thenounproject.com/api/private/icons/5842862/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+                alt=""
+              />
+            </button>
+            <button title="Circle" id="circle" class="options">
+              <img
+                src="https://thenounproject.com/api/private/icons/1757384/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+                alt=""
+              />
+            </button>
+            <button title="Line" id="line" class="options">
+              <img
+                src="https://thenounproject.com/api/private/icons/2759142/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+                alt=""
+              />
+            </button>
+            <button title="Triangle" id="triangle" class="options">
+              <img
+                src="https://thenounproject.com/api/private/icons/1055895/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+                alt=""
+              />
+            </button>
+          </div>
+        </div>
+
+        <div class=" undo-redo">
+          <button title="Undo" id="undo" class="undo options">
+            <img
+              src="https://thenounproject.com/api/private/icons/1672221/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+          <button title="Redo" id="redo" class="redo options">
+            <img
+              src="https://thenounproject.com/api/private/icons/1672210/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+        </div>
+
+        <div class="color-container ">
+          <!-- Color palette buttons -->
+<button  class="color-button options" data-color="black"></button>
+<button class="color-button options" data-color="red"></button>
+<button class="color-button options" data-color="blue"></button>
+
+<!-- Color selector -->
+<input type="color" class="options" id="color-selector" value="#000000">
+
         </div>
 
       </div>
-
-      
-
-      <div class="undo-redo">
-        <button title="Undo" id="undo" class="undo"><i class="ri-arrow-go-back-line"></i></button>
-        <button title="Redo" id="redo" class="redo"><i class="ri-arrow-go-forward-line"></i></button>
-      </div>
     </div>
-  </div> 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js" integrity="sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
-   <script src="../javascripts/main.js"></script> 
-   <script>
-    document.querySelector('#shapes').addEventListener('mouseover',function(){
-      document.querySelector('#shapes-options').style.display = 'flex'
-    })
+<!-- 
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"
+      integrity="sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script> -->
+    <script src="../fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
+    <script src="../javascripts/main.js"></script>
+    <script>
+      document
+        .querySelector("#shapes")
+        .addEventListener("mouseover", function () {
+          document.querySelector("#shapes-options").style.display = "flex";
+        });
 
-      document.querySelector('#shapes').addEventListener('mouseleave',function(){
-      document.querySelector('#shapes-options').style.display = 'none'
-    })
+      document
+        .querySelector("#shapes")
+        .addEventListener("mouseleave", function () {
+          document.querySelector("#shapes-options").style.display = "none";
+        });
 
-    document.querySelector('#shapes-options').addEventListener('mousemove',function(){
-      document.querySelector('#shapes-options').style.display = 'flex'
-    })
+      document
+        .querySelector("#shapes-options")
+        .addEventListener("mousemove", function () {
+          document.querySelector("#shapes-options").style.display = "flex";
+        });
 
-    document.querySelector('#shapes-options').addEventListener('mouseleave',function(){
-      document.querySelector('#shapes-options').style.display = 'none'
-    })
-    
-    
-  </script>
- 
-</body>
-
+      document
+        .querySelector("#shapes-options")
+        .addEventListener("mouseleave", function () {
+          document.querySelector("#shapes-options").style.display = "none";
+        });
+    </script>
+  </body>
 </html>

@@ -5,6 +5,7 @@ const socketapi = {
 
 
 
+
  // Socket.IO event handlers
  io.on('connection', (socket) => {
    // Join room event handler

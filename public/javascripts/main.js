@@ -1,7 +1,7 @@
 // Initialize Fabric.js canvas
 var canvas = new fabric.Canvas('canvas', {
-  width: 800,
-  height: 600,
+  width: 1500,
+  height: 1000,
   selection: false
 });
 
@@ -20,6 +20,7 @@ var pencilMode = false;
 var lineMode = false;
 var dragMode = false;
 var startPoint = null;
+let selectedColor = "#000"
 
 // Function to handle shape drawing
 function handleShapeDrawing(shape, options) {
@@ -40,8 +41,8 @@ function handleShapeDrawing(shape, options) {
         width: 0,
         height: 0,
         fill: 'transparent',
-        stroke: 'black',
-        strokeWidth: 2
+        stroke: selectedColor,
+        strokeWidth: 2,
       });
       break;
     case 'circle':
@@ -50,7 +51,7 @@ function handleShapeDrawing(shape, options) {
         top: startPoint.y,
         radius: 0,
         fill: 'transparent',
-        stroke: 'black',
+        stroke: selectedColor,
         strokeWidth: 2
       });
       break;
@@ -61,7 +62,7 @@ function handleShapeDrawing(shape, options) {
         width: 0,
         height: 0,
         fill: 'transparent',
-        stroke: 'black',
+        stroke: selectedColor,
         strokeWidth: 2
       });
       break;
@@ -182,7 +183,7 @@ document.getElementById('line').addEventListener('click', function() {
   canvas.on('mouse:down', function(options) {
     startPoint = canvas.getPointer(options.e);
     var line = new fabric.Line([startPoint.x, startPoint.y, startPoint.x, startPoint.y], {
-      stroke: 'black',
+      stroke: selectedColor,
       strokeWidth: 2
     });
     canvas.add(line);
@@ -254,7 +255,7 @@ document.getElementById('text').addEventListener('click', function() {
     var text = new fabric.IText('Enter text', {
       left: pointer.x,
       top: pointer.y,
-      fill: 'black',
+      fill: selectedColor,
       fontSize: 16,
       fontFamily: 'Arial',
       editable: true
@@ -287,29 +288,28 @@ document.getElementById('text').addEventListener('click', function() {
   
 });
 
+
+
 // Add event listener for erase button
-document.getElementById('erase').addEventListener('click', function() {
+// Add event listener for the erase button
+document.getElementById('eraser').addEventListener('click', function() {
+  // Disable drawing mode and other shape buttons
   canvas.isDrawingMode = false;
-  canvas.selection = false;
-  canvas.defaultCursor = 'default';
-
-  canvas.forEachObject(function(object) {
-    object.evented = true;
-  });
-
   canvas.off('mouse:down');
   canvas.off('mouse:move');
   canvas.off('mouse:up');
-  canvas.on('mouse:down', function(options) {
-    var pointer = canvas.getPointer(options.e);
-    canvas.forEachObject(function(object) {
-      if (object.containsPoint(pointer)) {
-        canvas.remove(object);
-        sendDrawData();
-      }
+
+  // Enable erase mode
+  canvas.forEachObject(function(obj) {
+    obj.selectable = true;
+    obj.hoverCursor = 'pointer';
+    obj.on('mouseover', function() {
+      canvas.remove(obj);
+      sendDrawData();
     });
   });
 });
+
 
 // Add event listener for the image button
 document.getElementById('image').addEventListener('click', function() {
@@ -341,6 +341,11 @@ document.getElementById('image').addEventListener('click', function() {
           originY: 'center'
         });
 
+        // Add event listener for object moving
+        img.on('moving', function() {
+          sendDrawData();
+        });
+
         // Add the image to the canvas
         canvas.add(img);
         canvas.renderAll();
@@ -352,6 +357,9 @@ document.getElementById('image').addEventListener('click', function() {
     reader.readAsDataURL(file);
   });
 });
+
+
+
 
 
 
@@ -394,7 +402,44 @@ document.getElementById('download').addEventListener('click', function() {
 });
 
 
+// Add event listeners to color palette buttons
+var colorButtons = document.querySelectorAll('.color-button');
+colorButtons.forEach(function (button) {
+  button.addEventListener('click', function () {
+    var color = button.getAttribute('data-color');
+    selectedColor = color;
+    updateCursorColor(color);
+    updateShapeStrokeColor(color);
+    canvas.freeDrawingBrush.color = color;
+    canvas.renderAll();
+  });
+});
 
+// Add event listener to color selector
+var colorSelector = document.getElementById('color-selector');
+colorSelector.addEventListener('input', function () {
+  var color = colorSelector.value;
+  selectedColor = color;
+  updateCursorColor(color);
+  updateShapeStrokeColor(color);
+  canvas.freeDrawingBrush.color = color;
+  canvas.renderAll();
+});
+
+// Function to update the cursor color
+function updateCursorColor(color) {
+  var canvasElement = document.getElementById('canvas');
+  canvasElement.style.cursor = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="${encodeURIComponent(color)}"><circle cx="16" cy="16" r="14"/></svg>') 8 8, auto`;
+}
+
+// Function to update the stroke color of shapes
+function updateShapeStrokeColor(color) {
+  var activeObject = canvas.getActiveObject();
+  if (activeObject) {
+    activeObject.set('stroke', color);
+    canvas.renderAll();
+  }
+}
 
 
 
@@ -410,3 +455,4 @@ socket.on('draw', function(data) {
   canvas.loadFromJSON(obj);
   canvas.renderAll();
 });
+
