@@ -1,3 +1,8 @@
+@font-face {
+  font-family: gilroy;
+  src: url('../fonts/Gilroy-Regular.ttf');
+}
+
 * {
   margin: 0;
  padding: 0;
@@ -9,6 +14,7 @@
  height: 100%;
  width: 100%;
  background-color: #fcf0f0;
+ font-family: gilroy !important;
  }
  
  *::-webkit-scrollbar{
@@ -52,7 +58,7 @@
  
  }
   
- .size-container,.color-container,.undo-redo,#shapes-options{
+ .size-container,.color-container,.undo-redo,.share-container,#shapes-options,.custom-dialog{
    position: absolute;
    top: 12%;
    left: 97%;
@@ -119,16 +125,18 @@
  
  .color-container{
   top: 50%;
-  left: 4%;
+  left: 2.5%;
  }
 
  
  .size-container{
   top: 5%;
-  left: 7%;
+  left: 6%;
   text-align: center;
   padding: .5vmax;
  }
+
+
 
  input[type="range"] {
   -webkit-appearance: none;
@@ -142,14 +150,14 @@
 
 /* Track: webkit browsers */
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 15px;
+  height: 10px;
   background: #ccc;
   border-radius: 16px;
 }
 
 /* Track: Mozilla Firefox */
 input[type="range"]::-moz-range-track {
-  height: 15px;
+  height: 10px;
   background: #ccc;
   border-radius: 16px;
 }
@@ -160,8 +168,8 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none; 
   /* creating a custom design */
-  height: 15px;
-  width: 15px;
+  height: 10px;
+  width: 10px;
   background-color: #fff;
   border-radius: 50%;
   border: 2px solid #111;
@@ -172,8 +180,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* Thumb: Firefox */
 input[type="range"]::-moz-range-thumb {
-  height: 15px;
-  width: 15px;
+  height: 10px;
+  width: 10px;
   background-color: #fff;
   border-radius: 50%;
   border: 1px solid #111;
@@ -181,3 +189,162 @@ input[type="range"]::-moz-range-thumb {
   box-shadow: -407px 0 0 400px #111;
 }
 
+
+
+
+/* Styles for the custom dialog box */
+ .custom-dialog {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 9999;
+  width: 300px;
+  user-select: none;
+  text-align: center;
+
+
+}
+
+/* Styles for the dialog textarea */
+#dialog-text {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: none;
+  user-select: all;
+  border: none !important;
+  outline: none;
+  text-align: center;
+  margin-top: 1vw;
+}
+
+#close-dialog-btn{
+background-color: rgb(208, 58, 58);
+}
+
+#copy-btn{
+  background-color: rgb(69, 69, 248);
+  margin-left: 1vw;
+}
+
+
+/* CSS */
+.buttons ,.board-create,.join{
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+  color: #f7f7f7;
+}
+
+.buttons:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+.buttons:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+.buttons:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+.buttons:focus {
+  outline: 1px transparent;
+}
+
+.buttons:before {
+  display: none;
+}
+
+.buttons:-webkit-details-marker {
+  display: none;
+}
+
+.hidden-content {
+  display: none;
+  padding: 5vw;
+  margin-top: 30vh;
+  text-align: center;
+}
+
+.welcome{
+  text-align: center;
+  margin-top: 10vw;
+}
+
+.cont{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.board-create{
+  background-color: rgb(86, 86, 231);
+  text-decoration: none;
+  margin-bottom: 2vw;
+  width: 15vw;
+  text-align: center;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+}
+
+.join{
+  background-color: blueviolet;
+}
+
+.id-input{
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  display: inline-block;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}

@@ -5,12 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../stylesheets/style.css" />
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/7485/7485752.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="https://cdn-icons-png.flaticon.com/128/7485/7485752.png"
+      type="image/x-icon"
+    />
     <title>UnDraw | Board</title>
   </head>
 
   <body>
-    <div id="main">
+    <div class="hidden-content">
+      <h1>Sorry, this website is only available for PC/Laptop users.</h1>
+      <!-- You can customize the message for mobile/tablet users here -->
+    </div>
+    <div id="main" class="pc-only">
       <canvas width="800" height="500" id="canvas"></canvas>
 
       <div class="draw-area">
@@ -72,6 +80,13 @@
             />
           </button>
 
+          <button title="Share Board" class="options" id="share">
+            <img
+              src="https://thenounproject.com/api/private/icons/5843055/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+
           <div id="shapes-options">
             <button title="Rectangle" id="rectangle" class="options">
               <img
@@ -117,19 +132,36 @@
 
         <div class="color-container">
           <button id="fill" class="options">
-            <img src="https://thenounproject.com/api/private/icons/1284047/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="">
+            <img
+              src="https://thenounproject.com/api/private/icons/1284047/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
           </button>
           <!-- Color palette buttons -->
           <button class="color-button options" data-color="black">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+              ></path>
+            </svg>
           </button>
           <button class="color-button options" data-color="red">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="rgba(255,0,0,1)"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                fill="rgba(255,0,0,1)"
+              ></path>
+            </svg>
           </button>
           <button class="color-button options" data-color="blue">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="rgba(0,0,255,1)"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                fill="rgba(0,0,255,1)"
+              ></path>
+            </svg>
           </button>
-         
+
           <!-- Color selector -->
           <input
             type="color"
@@ -140,19 +172,30 @@
         </div>
         <div class="size-container">
           Brush Size
-          <input type="range" id="size" min="1" max="10" value="1" step="1" oninput="updateSize()">
-
+          <input
+            type="range"
+            id="size"
+            min="1"
+            max="10"
+            value="1"
+            step="1"
+            oninput="updateSize()"
+          />
         </div>
+
+        <!-- Custom dialog box -->
+<div id="custom-dialog" class="custom-dialog">
+  <h4>Invite others to your board by sharing this unique ID!</h4>
+  <textarea readonly id="dialog-text">Board ID</textarea>
+  <div class="dialog-buttons">
+    <button class="buttons" id="copy-btn">Copy</button>
+    <button class="buttons" id="close-dialog-btn">Close</button>
+  </div>
+
       </div>
     </div>
-    <!-- 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"
-      integrity="sha512-CeIsOAsgJnmevfCi2C7Zsyy6bQKi43utIjdA87Q0ZY84oDqnI0uwfM9+bKiIkI75lUeI00WG/+uJzOmuHlesMA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script> -->
-    <script src="../fabric.min.js"></script>
+   
+    <script src="../javascripts/fabric.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
     <script src="../javascripts/main.js"></script>
     <script>
@@ -179,6 +222,41 @@
         .addEventListener("mouseleave", function () {
           document.querySelector("#shapes-options").style.display = "none";
         });
+
+
+      // Function to open the custom dialog box
+function openDialog() {
+  document.getElementById("custom-dialog").style.display = "block";
+        const shareId = window.location.pathname.split("/").pop();
+        document.querySelector('#dialog-text').textContent = shareId;
+
+}
+
+// Function to close the custom dialog box
+function closeDialog() {
+  document.getElementById("custom-dialog").style.display = "none";
+}
+
+// Function to copy the text in the dialog box
+function copyText() {
+  const dialogText = document.getElementById("dialog-text");
+  dialogText.select();
+  document.execCommand("copy");
+  this.textContent = 'copied'
+  
+}
+
+// Attach event listener to the button to open the dialog
+document.getElementById("share").addEventListener("click", openDialog);
+
+// Attach event listener to the copy button
+document.getElementById("copy-btn").addEventListener("click", copyText);
+
+// Attach event listener to the close button
+document.getElementById("close-dialog-btn").addEventListener("click", closeDialog);
+
+
+
     </script>
   </body>
 </html>

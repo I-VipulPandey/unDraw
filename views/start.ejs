@@ -4,16 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/7485/7485752.png" type="image/x-icon">
+    <link rel="stylesheet" href="../stylesheets/style.css">
 
     <title>UnDraw | Home</title>
-</head>
+   </head>
 <body>
-    <h1>Enter Board ID</h1>
+  <div id="main" class="pc-only">
+
+
+    <h1 class="welcome">Welcome to UnDraw</h1>
+    <div class="cont">
+      <a class="board-create" href="/create">create a board</a>
+
     <form action="/join/:roomId" method="post">
-      <input type="text" name="roomId" required>
-      <button type="submit">Join</button>
+      <input class="id-input" type="text" placeholder="Enter Board ID" name="roomId" required>
+      <button class="join" type="submit">Join</button>
     </form>
 
-    <a href="/create">create a board</a>
+  </div>
+
+  </div>
+
+
+
+
+    <div class="hidden-content">
+      <h1>Sorry, this website is only available for PC/Laptop users.</h1>
+      <!-- You can customize the message for mobile/tablet users here -->
+    </div>
+
+<script src="../javascripts/main.js"></script>
 </body>
 </html>
