@@ -4,21 +4,37 @@ const socketapi = {
 };
 
 
+const boards = {};
 
+// Handle socket connections
+io.on('connection', (socket) => {
+  let currentBoard = null;
 
- // Socket.IO event handlers
- io.on('connection', (socket) => {
-   // Join room event handler
-   socket.on('joinRoom', (room) => {
-     socket.join(room);
-   });
+  // Join a whiteboard room
+  socket.on('joinRoom', (roomId) => {
+    socket.join(roomId);
+    currentBoard = roomId;
 
-   // Draw event handler
-   socket.on('draw', (data) => {
-     // Broadcast the drawing data to all clients in the room
-     socket.to('whiteboard').emit('draw', data);
-   });
- });
+    // Load board data (if available)
+    if (boards[currentBoard]) {
+      socket.emit('loadBoard', boards[currentBoard]);
+    }
+  });
+
+  // Receive drawing data from a client
+  socket.on('draw', (data) => {
+    if (currentBoard) {
+      boards[currentBoard] = data;
+      // Broadcast the drawing data to all clients in the room
+      socket.to(currentBoard).emit('draw', data);
+    }
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    currentBoard = null;
+  });
+});
 // end of socket.io logic
 
 module.exports = socketapi;

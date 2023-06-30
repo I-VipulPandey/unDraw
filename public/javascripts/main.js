@@ -9,7 +9,7 @@ var canvas = new fabric.Canvas('canvas', {
 var socket = io();
 
 
-
+const boardId = window.location.pathname.split('/').pop();
 
 // Variable to track pencil mode
 var pencilMode = false;
@@ -528,7 +528,7 @@ function sendDrawData() {
 var socket = io();
 
 // Join the room
-socket.emit('joinRoom', 'whiteboard');
+socket.emit('joinRoom', boardId);
 
 // Event listener for receiving drawing data from other clients
 socket.on('draw', function(data) {

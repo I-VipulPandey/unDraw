@@ -1,10 +1,15 @@
+const io = require( "socket.io" )();
+const socketapi = {
+    io: io
+};
 var express = require('express');
 var router = express.Router();
 const crypto = require("crypto");
 
 /* GET home page. */
 
-const boards = [];
+// Store board data
+const boards = {};
 
 function generateBoardId() {
   const id = crypto.randomBytes(16).toString("hex");
@@ -20,15 +25,23 @@ router.get('/', function (req, res, next) {
 
 // Create board route
 router.get('/create', (req, res) => {
-  const boardId = generateBoardId();
-  boards.push(boardId); 
-  res.redirect(`/board/${boardId}`);
+  const newBoardId = generateBoardId();
+  boards[newBoardId] = null; 
+  res.redirect(`/board/${newBoardId}`);
+
 });
 
 // join board route
-router.post('/join/:boardId', (req, res) => {
-  const boardId = req.body.boardId;
-  res.redirect(`/board/${boardId}`);
+router.post('/join/:roomId', (req, res) => {
+
+  const { roomId } = req.body;
+  console.log(boards[roomId])
+  if (boards[roomId] !== undefined) {
+    res.redirect(`/board/${roomId}`);
+  } else {
+    res.send('Board not found');
+  }
+
 });
 
 // // Join board route
@@ -38,13 +51,14 @@ router.post('/join/:boardId', (req, res) => {
 
 // Board route
 router.get('/board/:boardId', (req, res) => {
-  const { boardId } = req.params;
-  if (boards.includes(boardId)) {
-    res.render('index',{boardId});
-  } else {
-    res.send(`<h1>Board not found!</h1>`);
-  }
+
+    res.render('index');
 });
+
+
+
+
+
 
 
 
