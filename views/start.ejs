@@ -1,38 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/7485/7485752.png" type="image/x-icon">
-    <link rel="stylesheet" href="../stylesheets/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="https://cdn-icons-png.flaticon.com/128/7485/7485752.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../stylesheets/style.css" />
+    <link rel="stylesheet" href="../stylesheets/main.css" type="text/css" />
 
     <title>UnDraw | Home</title>
-   </head>
-<body>
-  <div id="main" class="pc-only">
+  </head>
+  <body>
+    <div id="main" class="pc-only">
+      <div class="flex items-center text-center justify-center min-h-screen bg-rose-50">
+        <!-- Card Container -->
+        <div
+          class="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0"
+        >
+          <!-- Left Side -->
+          <div class="p-6 md:p-20">
+            <!-- Top Content -->
+            <h2 class="font-mono mb-5 text-4xl font-bold">Welcome to UnDraw</h2>
+            <p class="max-w-sm mb-12 font-sans font-light text-gray-600">
+              Create a board or join an existing board
+            </p>
 
+            <form action="/join/:roomId" method="post">
+              <input title="Enter a board ID to join a board"
+                name="roomId"
+                required
+                type="text"
+                class="w-full p-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+                placeholder="Enter board ID"
+              />
+              <button
+                type="submit"
+                class="w-full py-3 md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 shadow-sm hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
+              >
+                <span>Join Board</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-7"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="#ffffff"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <line x1="13" y1="18" x2="19" y2="12" />
+                  <line x1="13" y1="6" x2="19" y2="12" />
+                </svg>
+              </button>
+            </form>
 
-    <h1 class="welcome">Welcome to UnDraw</h1>
-    <div class="cont">
-      <a class="board-create" href="/create">create a board</a>
+            
+            <!-- Middle Content -->
+            <p class="py-6 text-sm font-thin text-center text-gray-400">
+              or start with scratch
+            </p>
+           
+              <a title="Create a empty board"
+                href="/create"
+                class="w-full md:w-auto flex justify-center items-center p-6 py-3 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-cyan-700 shadow-cyan-100 hover:bg-opacity-90 hover:shadow-lg border transition hover:-translate-y-0.5 duration-150"
+                >Create a Board</a
+              >
 
-    <form action="/join/:roomId" method="post">
-      <input class="id-input" type="text" placeholder="Enter Board ID" name="roomId" required>
-      <button class="join" type="submit">Join</button>
-    </form>
+            <!-- Right Side -->
+            <img
+              src="images/image.jpg"
+              alt=""
+              class="w-[430px] hidden md:block"
+            />
+          </div>
+        </div>
+      </div>
 
-  </div>
-
-  </div>
-
-
-
-
-    <div class="hidden-content">
-      <h1>Sorry, this website is only available for PC/Laptop users.</h1>
-      <!-- You can customize the message for mobile/tablet users here -->
     </div>
+      <div class="hidden-content">
+        <h1>Sorry, this website is only available for PC/Laptop users.</h1>
+        <!-- You can customize the message for mobile/tablet users here -->
+      </div>
 
-<script src="../javascripts/main.js"></script>
-</body>
+    <script src="../javascripts/mobile.js"></script>
+  </body>
 </html>
