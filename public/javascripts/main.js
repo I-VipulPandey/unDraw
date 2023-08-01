@@ -21,7 +21,25 @@ let selectedColor = "#000"
 var canvasStates = [];
 var currentStateIndex = -1;
 
+// Arrays to store canvas states for undo and redo
+var undoStates = [];
+var redoStates = [];
+var MAX_STATES = 20; // Maximum number of states to store for undo and redo
+
 var selectedSize = 1;
+
+// Function to add the current canvas state to the undo array
+function addCanvasStateToUndo() {
+  var jsonData = JSON.stringify(canvas.toJSON());
+  undoStates.push(jsonData);
+  if (undoStates.length > MAX_STATES) {
+    undoStates.shift();
+  }
+  // Clear redo states after new drawing
+  redoStates = [];
+}
+
+
 
 function updateSize() {
   var sizeInput = document.getElementById('size');
@@ -486,24 +504,25 @@ document.getElementById('fill').addEventListener('click', function() {
 });
 
 document.getElementById('undo').addEventListener('click', function() {
-  if (currentStateIndex > 0) {
-    currentStateIndex--;
-    canvas.loadFromJSON(canvasStates[currentStateIndex], function() {
+  if (undoStates.length > 1) {
+    var jsonData = undoStates.pop();
+    redoStates.push(jsonData);
+    var prevJsonData = undoStates[undoStates.length - 1];
+    canvas.loadFromJSON(prevJsonData, function () {
       canvas.renderAll();
     });
-    cancelDrawingMode(); // Cancel drawing mode and remove event listeners
-    sendDrawData(); // Send updated canvas state to other clients
+    sendDrawData();
   }
 });
 
 document.getElementById('redo').addEventListener('click', function() {
-  if (currentStateIndex < canvasStates.length - 1) {
-    currentStateIndex++;
-    canvas.loadFromJSON(canvasStates[currentStateIndex], function() {
+  if (redoStates.length > 0) {
+    var jsonData = redoStates.pop();
+    undoStates.push(jsonData);
+    canvas.loadFromJSON(jsonData, function () {
       canvas.renderAll();
     });
-    cancelDrawingMode(); // Cancel drawing mode and remove event listeners
-    sendDrawData(); // Send updated canvas state to other clients
+    sendDrawData();
   }
 });
 
@@ -515,6 +534,50 @@ function cancelDrawingMode() {
   canvas.off('mouse:move');
   canvas.off('mouse:up');
 }
+
+
+// Function to save board data in JSON format and prompt user to download it
+function saveBoardData() {
+  var jsonData = JSON.stringify(canvas.toJSON());
+  var blob = new Blob([jsonData], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+
+  // Create a temporary link element and click it to prompt the user to download the JSON file
+  var link = document.createElement('a');
+  link.href = url;
+  link.download = 'whiteboard_data.json';
+  link.click();
+
+  // Release the URL object to free up resources
+  URL.revokeObjectURL(url);
+}
+
+// Add event listener to the "Save Board" button
+document.getElementById('save-board').addEventListener('click', function() {
+  saveBoardData();
+});
+
+
+// Function to handle loading board data from a JSON file
+function loadBoardDataFromFile(file) {
+  var reader = new FileReader();
+  reader.onload = function(event) {
+    var jsonData = event.target.result;
+    canvas.loadFromJSON(jsonData, function() {
+      canvas.renderAll();
+    });
+  };
+  reader.readAsText(file);
+}
+
+// Add event listener to the "Load Board" input element
+document.getElementById('load-board').addEventListener('change', function(event) {
+  var file = event.target.files[0];
+  if (file) {
+    loadBoardDataFromFile(file);
+  }
+});
+
 
 
 
@@ -530,7 +593,6 @@ function sendDrawData() {
   canvasStates.push(jsonData);
   currentStateIndex++;
 }
-
 
 
 // Socket.IO client configuration
@@ -562,7 +624,13 @@ function loadBoardData() {
 socket.on('loadBoard', function (data) {
   canvas.loadFromJSON(data, function () {
     canvas.renderAll();
+    addCanvasStateToUndo(); 
   });
+});
+
+// Add event listener for path creation (freehand drawing)
+canvas.on('path:created', function() {
+  addCanvasStateToUndo();
 });
 
 // Call the function to load board data from the server when the client connects

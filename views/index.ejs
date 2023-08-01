@@ -80,6 +80,13 @@
             />
           </button>
 
+          <button title="Save as JSON" id="save-board" class="options">
+            <img
+              src="https://thenounproject.com/api/private/icons/5435866/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
+              alt=""
+            />
+          </button>
+
           <button title="Share Board" class="options" id="share">
             <img
               src="https://thenounproject.com/api/private/icons/5843055/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
@@ -115,6 +122,7 @@
           </div>
         </div>
 
+  
         <div class="undo-redo">
           <button title="Undo" id="undo" class="undo options">
             <img
@@ -128,6 +136,7 @@
               alt=""
             />
           </button>
+
         </div>
 
         <div class="color-container">
@@ -182,6 +191,14 @@
             oninput="updateSize()"
           />
         </div>
+
+
+        <div class="upload-btn-wrapper">
+          <button class="options btn">Import JSON</button>
+          <input class="JSON-container" type="file" id="load-board" accept=".json">
+          
+        </div>
+
 
         <!-- Custom dialog box -->
 <div id="custom-dialog" class="custom-dialog">

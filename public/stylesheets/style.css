@@ -58,7 +58,7 @@
  
  }
   
- .size-container,.color-container,.undo-redo,.share-container,#shapes-options,.custom-dialog{
+ .size-container,.upload-btn-wrapper,.color-container,.undo-redo,.share-container,#shapes-options,.custom-dialog{
    position: absolute;
    top: 12%;
    left: 97%;
@@ -117,7 +117,7 @@
  
  
  #shapes-options{
-   left: 70% !important;
+   left: 50% !important;
    top: 140%;
    flex-direction: row;
    display: none;  
@@ -136,6 +136,35 @@
   padding: .5vmax;
  }
 
+ 
+
+ .upload-btn-wrapper {
+  position: absolute;
+  top: 5%;
+  left: 85%;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer !important;
+  padding: .5vw 1vw;
+}
+
+.btn {
+  border: 1px solid #111;
+  border-radius: 8px;
+  font-size: 1vw;
+  font-weight: bold;
+  cursor: pointer !important;
+
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 2vw;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer !important;
+}
 
 
  input[type="range"] {
