@@ -336,6 +336,10 @@ document.getElementById('eraser').addEventListener('click', function() {
       canvas.renderAll();
     });
   });
+  // Disable all other buttons
+  pencilMode = false;
+  lineMode = false;
+  dragMode = false;
 });
 
 
@@ -540,5 +544,35 @@ socket.on('draw', function(data) {
   var obj = JSON.parse(data);
   canvas.loadFromJSON(obj);
   canvas.renderAll();
+});
+
+
+// Function to send drawing data to the server and broadcast it to all clients
+function sendDrawData() {
+  var jsonData = JSON.stringify(canvas.toJSON());
+  socket.emit('draw', jsonData);
+}
+
+// Function to load board data from the server
+function loadBoardData() {
+  socket.emit('joinRoom', boardId);
+}
+
+// Function to handle receiving the board data from the server
+socket.on('loadBoard', function (data) {
+  canvas.loadFromJSON(data, function () {
+    canvas.renderAll();
+  });
+});
+
+// Call the function to load board data from the server when the client connects
+socket.on('connect', function () {
+  loadBoardData();
+});
+
+
+// // Simulate a click on the drag mode button to activate drag mode by default
+window.addEventListener('load', function() {
+  document.getElementById('drag').click();
 });
 

@@ -1,10 +1,17 @@
-const io = require( "socket.io" )();
+// Initialize Socket.IO
+const io = require("socket.io")();
 const socketapi = {
-    io: io
+  io: io,
 };
 
-
 const boards = {};
+
+// Function to send the current board data to all clients in a room
+function sendCurrentBoardData(roomId) {
+  if (boards[roomId]) {
+    io.to(roomId).emit('loadBoard', boards[roomId]);
+  }
+}
 
 // Handle socket connections
 io.on('connection', (socket) => {
@@ -14,19 +21,15 @@ io.on('connection', (socket) => {
   socket.on('joinRoom', (roomId) => {
     socket.join(roomId);
     currentBoard = roomId;
-
-    // Load board data (if available)
-    if (boards[currentBoard]) {
-      socket.emit('loadBoard', boards[currentBoard]);
-    }
+    sendCurrentBoardData(currentBoard); // Send current board data to the newly joined user
   });
 
   // Receive drawing data from a client
   socket.on('draw', (data) => {
     if (currentBoard) {
       boards[currentBoard] = data;
-      // Broadcast the drawing data to all clients in the room
-      socket.to(currentBoard).emit('draw', data);
+      // Broadcast the drawing data to all clients in the room (including the sender)
+      io.to(currentBoard).emit('draw', data);
     }
   });
 
@@ -35,6 +38,5 @@ io.on('connection', (socket) => {
     currentBoard = null;
   });
 });
-// end of socket.io logic
 
 module.exports = socketapi;
